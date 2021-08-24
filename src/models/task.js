@@ -1,8 +1,8 @@
 // Import npm modules.
 import mongoose from 'mongoose'
 
-// Define the task model.
-const Task = mongoose.model('Task', {
+// Define the task schema.
+const taskSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true,
@@ -17,7 +17,12 @@ const Task = mongoose.model('Task', {
         required: true,
         ref: 'User'
     }
+}, {
+    timestamps: true
 })
+
+// Define the task model.
+const Task = mongoose.model('Task', taskSchema)
 
 // Module exports.
 export default Task
