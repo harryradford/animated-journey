@@ -1,5 +1,6 @@
 // Import npm modules.
 import express from 'express'
+import multer from 'multer'
 
 // Import local modules.
 import User from '../models/user.js'
@@ -93,6 +94,41 @@ router.delete('/users/me', auth, async (req, res) => {
         res.status(200).send(req.user)
     } catch (error) {
         res.status(500).send(error)
+    }
+})
+
+// Upload or update an avatar.
+const upload = multer({
+    limits: {
+        fileSize: 1000000
+    },
+    fileFilter(req, file, callback) {
+        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+            return callback(new Error('Please upload an image'))
+        }
+
+        callback(undefined, true)
+    }
+})
+
+router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
+    req.user.avatar = req.file.buffer
+    await req.user.save()
+
+    res.status(200).send()
+}, (error, req, res, next) => {
+    res.status(400).send({error: error.message})
+})
+
+// Delete the avatar.
+router.delete('/users/me/avatar', auth, async (req, res) => {
+    try {
+        req.user.avatar = undefined
+        await req.user.save()
+    
+        res.status(200).send()
+    } catch (error) {
+        res.send(500).send(error)
     }
 })
 
