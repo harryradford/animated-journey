@@ -1,6 +1,7 @@
 // Import npm modules.
 import express from 'express'
 import multer from 'multer'
+import sharp from 'sharp'
 
 // Import local modules.
 import User from '../models/user.js'
@@ -97,7 +98,7 @@ router.delete('/users/me', auth, async (req, res) => {
     }
 })
 
-// Upload or update an avatar.
+// Create or update an avatar.
 const upload = multer({
     limits: {
         fileSize: 1000000
@@ -112,7 +113,8 @@ const upload = multer({
 })
 
 router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
-    req.user.avatar = req.file.buffer
+    const buffer = await sharp(req.file.buffer).resize({width: 250, height: 250}).png().toBuffer()
+    req.user.avatar = buffer
     await req.user.save()
 
     res.status(200).send()
@@ -141,7 +143,7 @@ router.get('/users/:id/avatar', async (req, res) => {
             throw new Error()
         }
 
-        res.set('Content-Type', 'image/jpg')
+        res.set('Content-Type', 'image/png')
         res.status(200).send(user.avatar)
     } catch (error) {
         res.status(404).send()

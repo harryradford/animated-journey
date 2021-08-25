@@ -79,13 +79,14 @@ userSchema.methods.generateAuthToken = async function () {
     return token
 }
 
-// Get the user without their password and tokens.
+// Get the user without their password, tokens, and avatar.
 userSchema.methods.toJSON = function () {
     const user = this
     const userObject = user.toObject()
 
     delete userObject.password
     delete userObject.tokens
+    delete userObject.avatar
 
     return userObject
 }
