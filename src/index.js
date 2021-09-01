@@ -12,7 +12,7 @@ import './db/mongoose.js'
 const app = express()
 
 // Get the port for Heroku or local development.
-const port = process.env.PORT || 3000
+const port = process.env.PORT
 
 // Parse incoming JSON.
 app.use(express.json())

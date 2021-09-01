@@ -6,16 +6,18 @@ import sharp from 'sharp'
 // Import local modules.
 import User from '../models/user.js'
 import auth from '../middleware/auth.js'
+import {sendWelcomeEmail, sendCancellationEmail} from '../emails/account.js'
 
 // Create a new router.
 const router = new express.Router()
 
-// Create a user document.
+// Create a user document and send them a welcome email.
 router.post('/users', async (req, res) => {
     const user = new User(req.body)
 
     try {
         await user.save()
+        sendWelcomeEmail(user.email, user.name)
         const token = await user.generateAuthToken()
 
         res.status(201).send({user, token})
@@ -91,6 +93,7 @@ router.patch('/users/me', auth, async (req, res) => {
 router.delete('/users/me', auth, async (req, res) => {
     try {
         await req.user.remove()
+        sendCancellationEmail(req.user.email, req.user.name)
 
         res.status(200).send(req.user)
     } catch (error) {
