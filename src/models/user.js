@@ -1,11 +1,11 @@
 // Import npm modules.
-import mongoose from 'mongoose'
-import validator from 'validator'
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
+const mongoose = require('mongoose')
+const validator = require('validator')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 // Import local modules.
-import Task from './task.js'
+const Task = require('./task.js')
 
 // Define the user schema.
 const userSchema = new mongoose.Schema({
@@ -134,4 +134,4 @@ userSchema.pre('remove', async function (next) {
 const User = mongoose.model('User', userSchema)
 
 // Module exports.
-export default User
+module.exports = User

@@ -1,5 +1,5 @@
 // Import npm modules.
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
 // Connect to the database server.
 mongoose.connect(process.env.MONGODB_URL, {

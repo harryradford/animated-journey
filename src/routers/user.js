@@ -1,12 +1,12 @@
 // Import npm modules.
-import express from 'express'
-import multer from 'multer'
-import sharp from 'sharp'
+const express = require('express')
+const multer = require('multer')
+const sharp = require('sharp')
 
 // Import local modules.
-import User from '../models/user.js'
-import auth from '../middleware/auth.js'
-import {sendWelcomeEmail, sendCancellationEmail} from '../emails/account.js'
+const User = require('../models/user.js')
+const auth = require('../middleware/auth.js')
+const {sendWelcomeEmail, sendCancellationEmail} = require('../emails/account.js')
 
 // Create a new router.
 const router = new express.Router()
@@ -154,4 +154,4 @@ router.get('/users/:id/avatar', async (req, res) => {
 })
 
 // Module exports.
-export default router
+module.exports = router

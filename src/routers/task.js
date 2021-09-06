@@ -1,9 +1,9 @@
 // Import npm modules.
-import express from 'express'
+const express = require('express')
 
 // Import local modules.
-import Task from '../models/task.js'
-import auth from '../middleware/auth.js'
+const Task = require('../models/task.js')
+const auth = require('../middleware/auth.js')
 
 // Create a new router.
 const router = new express.Router()
@@ -122,4 +122,4 @@ router.delete('/tasks/:id', auth, async (req, res) => {
 })
 
 // Module exports.
-export default router
+module.exports = router

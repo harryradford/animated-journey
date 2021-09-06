@@ -1,6 +1,6 @@
 // Import npm modules.
-import jwt from 'jsonwebtoken'
-import User from '../models/user.js'
+const jwt = require('jsonwebtoken')
+const User = require('../models/user.js')
 
 // Authenticate the user.
 const auth = async (req, res, next) => {
@@ -22,4 +22,4 @@ const auth = async (req, res, next) => {
 }
 
 // Module exports.
-export default auth
+module.exports = auth

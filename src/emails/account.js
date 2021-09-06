@@ -1,5 +1,5 @@
 // Import npm modules.
-import sgMail from '@sendgrid/mail'
+const sgMail = require('@sendgrid/mail')
 
 // Set the API key from the environment variable.
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
@@ -25,7 +25,7 @@ const sendCancellationEmail = (email, name) => {
 }
 
 // Module exports.
-export {
+module.exports = {
     sendWelcomeEmail,
     sendCancellationEmail
 }

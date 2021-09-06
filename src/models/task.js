@@ -1,5 +1,5 @@
 // Import npm modules.
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
 // Define the task schema.
 const taskSchema = new mongoose.Schema({
@@ -25,4 +25,4 @@ const taskSchema = new mongoose.Schema({
 const Task = mongoose.model('Task', taskSchema)
 
 // Module exports.
-export default Task
+module.exports = Task
