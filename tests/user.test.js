@@ -159,3 +159,28 @@ test('Should upload an avatar', async () => {
 
     expect(user.avatar).toEqual(expect.any(Buffer))
 })
+
+// Test updating fields on user.
+test('Should not update invalid fields on user', async () => {
+    await request(app)
+        .patch('/users/me')
+        .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+        .send({
+            location: 'United Kingdom'
+        })
+        .expect(400)
+})
+
+test('Should update valid fields on user', async () => {
+    await request(app)
+        .patch('/users/me')
+        .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+        .send({
+            name: 'Arthur The Second'
+        })
+        .expect(200)
+
+    const user = await User.findById(userOneId)
+
+    expect(user.name).toBe('Arthur The Second')
+})
