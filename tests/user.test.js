@@ -24,6 +24,11 @@ beforeEach(async () => {
     await new User(userOne).save()
 })
 
+// Close database connection after all test cases.
+afterAll(async () => {
+    await mongoose.disconnect()
+})
+
 // Test user registration.
 test('Should not register user with existing email', async () => {
     await request(app)
