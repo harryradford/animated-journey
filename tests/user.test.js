@@ -101,7 +101,7 @@ test('Should login an existing user', async () => {
 })
 
 // Test getting a user profile.
-test('Should get user profile', async () => {
+test('Should get user profile when authenticated', async () => {
     await request(app)
         .get('/users/me')
         .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
@@ -112,6 +112,22 @@ test('Should get user profile', async () => {
 test('Should not get user profile when unauthenticated', async () => {
     await request(app)
         .get('/users/me')
+        .send()
+        .expect(401)
+})
+
+// Test user account deletion.
+test('Should delete user account when authenticated', async () => {
+    await request(app)
+        .delete('/users/me')
+        .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+        .send()
+        .expect(200)
+})
+
+test('Should not delete user account when unauthenticated', async () => {
+    await request(app)
+        .delete('/users/me')
         .send()
         .expect(401)
 })
