@@ -146,3 +146,16 @@ test('Should delete user account when authenticated', async () => {
 
     expect(user).toBeNull()
 })
+
+// Test uploading an avatar.
+test('Should upload an avatar', async () => {
+    await request(app)
+        .post('/users/me/avatar')
+        .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+        .attach('avatar', 'tests/fixtures/profile-pic.jpg')
+        .expect(200)
+
+    const user = await User.findById(userOneId)
+
+    expect(user.avatar).toEqual(expect.any(Buffer))
+})
