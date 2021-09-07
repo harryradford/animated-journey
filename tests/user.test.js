@@ -1,33 +1,16 @@
 // Import npm modules.
 const request = require('supertest')
-const jwt = require('jsonwebtoken')
-const mongoose = require('mongoose')
 
 // Import local modules.
 const app = require('../src/app.js')
 const User = require('../src/models/user.js')
+const {userOneId, userOne, prepareDatabase, closeDatabaseConnection} = require('./fixtures/db.js')
 
 // Prepare the database before each test case.
-const userOneId = new mongoose.Types.ObjectId()
-const userOne = {
-    _id: userOneId,
-    name: 'Arthur',
-    email: 'arthur@example.com',
-    password: 'testpass',
-    tokens: [{
-        token: jwt.sign({_id: userOneId}, process.env.JWT_SECRET)
-    }]
-}
-
-beforeEach(async () => {
-    await User.deleteMany()
-    await new User(userOne).save()
-})
+beforeEach(prepareDatabase)
 
 // Close database connection after all test cases.
-afterAll(async () => {
-    await mongoose.disconnect()
-})
+afterAll(closeDatabaseConnection)
 
 // Test user registration.
 test('Should not register user with existing email', async () => {
