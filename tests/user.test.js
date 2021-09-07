@@ -26,19 +26,25 @@ beforeEach(async () => {
 
 // Test user registration.
 test('Should not register user with existing email', async () => {
-    await request(app).post('/users').send({
-        name: 'Harry',
-        email: userOne.email,
-        password: 'testpass'
-    }).expect(400)
+    await request(app)
+        .post('/users')
+        .send({
+            name: 'Harry',
+            email: userOne.email,
+            password: 'testpass'
+        })
+        .expect(400)
 })
 
 test('Should not register user with short password', async () => {
-    await request(app).post('/users').send({
-        name: 'Harry',
-        email: 'harry.radford@live.co.uk',
-        password: 'test'
-    }).expect(400)
+    await request(app)
+        .post('/users')
+        .send({
+            name: 'Harry',
+            email: 'harry.radford@live.co.uk',
+            password: 'test'
+        })
+        .expect(400)
 })
 
 test('Should register a new user', async () => {
@@ -66,17 +72,23 @@ test('Should register a new user', async () => {
 
 // Test user authentication.
 test('Should not login non-existent user', async () => {
-    await request(app).post('/users/login').send({
-        email: 'maisie@example.com',
-        password: 'testpass'
-    }).expect(400)
+    await request(app)
+        .post('/users/login')
+        .send({
+            email: 'maisie@example.com',
+            password: 'testpass'
+        })
+        .expect(400)
 })
 
 test('Should not login user with incorrect password', async () => {
-    await request(app).post('/users/login').send({
-        email: userOne.email,
-        password: 'wrongtestpass'
-    }).expect(400)
+    await request(app)
+        .post('/users/login')
+        .send({
+            email: userOne.email,
+            password: 'wrongtestpass'
+        })
+        .expect(400)
 })
 
 test('Should login an existing user', async () => {
