@@ -55,6 +55,13 @@ test('Should get a task by id that belongs to the user', async () => {
     expect(response.body._id.toString()).toBe(taskOne._id.toString())
 })
 
+test('Should not get a task by id if unauthenticated', async () => {
+    const response = await request(app)
+        .get(`/tasks/${taskOne._id}`)
+        .send()
+        .expect(401)
+})
+
 test('Should only get tasks that belong to the user', async () => {
     const response = await request(app)
         .get('/tasks')
