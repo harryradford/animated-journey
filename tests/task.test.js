@@ -45,6 +45,16 @@ test('Should create task', async () => {
 })
 
 // Test getting tasks.
+test('Should get a task by id that belongs to the user', async () => {
+    const response = await request(app)
+        .get(`/tasks/${taskOne._id}`)
+        .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+        .send()
+        .expect(200)
+
+    expect(response.body._id.toString()).toBe(taskOne._id.toString())
+})
+
 test('Should only get tasks that belong to the user', async () => {
     const response = await request(app)
         .get('/tasks')
