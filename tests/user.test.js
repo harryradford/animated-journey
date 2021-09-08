@@ -13,6 +13,16 @@ beforeEach(prepareDatabase)
 afterAll(closeDatabaseConnection)
 
 // Test user registration.
+test('Should not register with no name', async () => {
+    await request(app)
+        .post('/users')
+        .send({
+            email: 'harry.radford@live.co.uk',
+            password: 'testpass'
+        })
+        .expect(400)
+})
+
 test('Should not register user with existing email', async () => {
     await request(app)
         .post('/users')
