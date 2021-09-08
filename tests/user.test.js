@@ -164,6 +164,16 @@ test('Should not update invalid fields on user', async () => {
         .expect(400)
 })
 
+test('Should not update user with an invalid new email', async () => {
+    await request(app)
+        .patch('/users/me')
+        .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+        .send({
+            email: 'harry@example.com'
+        })
+        .expect(400)
+})
+
 test('Should not update user if unauthenticated', async () => {
     await request(app)
         .patch('/users/me')
