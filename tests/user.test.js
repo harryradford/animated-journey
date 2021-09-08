@@ -164,6 +164,15 @@ test('Should not update invalid fields on user', async () => {
         .expect(400)
 })
 
+test('Should not update user if unauthenticated', async () => {
+    await request(app)
+        .patch('/users/me')
+        .send({
+            name: 'Arthur The Second'
+        })
+        .expect(401)
+})
+
 test('Should update valid fields on user', async () => {
     await request(app)
         .patch('/users/me')
