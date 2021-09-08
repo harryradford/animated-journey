@@ -25,6 +25,7 @@ router.post('/tasks', auth, async (req, res) => {
 })
 
 // Read all, complete, or incomplete tasks with pagination and sorting.
+// E.g. /tasks?completed=false&sortBy=createdAt:desc&limit=10&skip=0.
 router.get('/tasks', auth, async (req, res) => {
     const match = {}
     const sort = {}
